@@ -31,34 +31,55 @@ document.getElementById('top-btn').addEventListener('click', () => {
   fabMenu.style.display = 'none';
 });
 
-// Breathing Exercise Logic
 console.log('enhancements.js: Setting up breathing exercise');
-setTimeout(() => {
-  console.log('enhancements.js: Inside setTimeout');
-  const breathingExercise = document.querySelector('.breathing-exercise');
-  const breathingCircle = document.querySelector('.breathing-circle');
-  const breathingIcon = document.querySelector('.breathing-icon'); // New icon
-  const breathingControl = document.querySelector('.breathing-control');
 
-  console.log('Breathing Exercise Element:', breathingExercise);
-  console.log('Breathing Circle Element:', breathingCircle);
-  console.log('Breathing Icon Element:', breathingIcon);
-  console.log('Breathing Control Element:', breathingControl);
+// Select elements
+const breathingExercise = document.querySelector('.breathing-exercise');
+const breathingCircle = document.querySelector('.breathing-circle');
+const breathingIcon = document.querySelector('.breathing-icon');
+const breathingControl = document.querySelector('.breathing-control');
 
-  if (!breathingExercise || !breathingCircle || !breathingIcon || !breathingControl) {
-    console.error('enhancements.js: One or more breathing exercise elements not found');
-    return;
-  }
+// Log elements for debugging
+console.log('Breathing Exercise:', breathingExercise);
+console.log('Breathing Circle:', breathingCircle);
+console.log('Breathing Icon:', breathingIcon);
+console.log('Breathing Control:', breathingControl);
 
+if (!breathingExercise || !breathingCircle || !breathingIcon || !breathingControl) {
+  console.error('enhancements.js: One or more breathing exercise elements not found');
+} else {
+  let isBreathing = false;
+
+  // Expand/collapse on click (original behavior)
   breathingExercise.addEventListener('click', () => {
-    console.log('enhancements.js: Breathing exercise clicked');
     breathingExercise.classList.toggle('expanded');
-    console.log('Expanded state:', breathingExercise.classList.contains('expanded'));
+    console.log('enhancements.js: Breathing exercise toggled');
   });
 
- 
+  // Start/Stop breathing animation
+  breathingControl.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevent click from toggling the parent
+    isBreathing = !isBreathing;
+    breathingControl.textContent = isBreathing ? 'Stop' : 'Start';
+
+    if (isBreathing) {
+      breathingCircle.style.animationPlayState = 'running';
+      breathingIcon.style.animationPlayState = 'running';
+      breathingExercise.classList.add('expanded'); // Ensure it stays expanded
+      console.log('enhancements.js: Breathing animation started');
+    } else {
+      breathingCircle.style.animationPlayState = 'paused';
+      breathingIcon.style.animationPlayState = 'paused';
+      console.log('enhancements.js: Breathing animation stopped');
+    }
+  });
+
+  // Ensure animations are paused initially
+  breathingCircle.style.animationPlayState = 'paused';
+  breathingIcon.style.animationPlayState = 'paused';
+
   console.log('enhancements.js: Breathing exercise event listeners attached');
-}, 500);
+}
 
 console.log('enhancements.js: Script finished loading');
 
